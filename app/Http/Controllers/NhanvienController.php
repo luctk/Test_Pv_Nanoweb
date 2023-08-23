@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NhanvienRequest;
 use App\Models\Nhanvien;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -12,7 +13,9 @@ class NhanvienController extends Controller
 {
     public function index(Request $request)
     {
-        $nhanvien = Nhanvien::all();
+
+        $nhanvien = Nhanvien::paginate(3);
+//        $paginator=Paginator::class
         if ($request->post() && $request->searchNhanvien) {
             $nhanvien = DB::table('nhanvien')
                 ->where('ten', 'like', '%' . $request->searchNhanvien . '%')

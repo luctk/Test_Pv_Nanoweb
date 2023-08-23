@@ -28,4 +28,5 @@
         @endforeach
         </tbody>
     </table>
+    {{$nhanvien->links('vendor.pagination.custom')}}
 @endsection
