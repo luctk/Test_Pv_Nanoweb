@@ -21,6 +21,9 @@ class NhanvienRequest extends FormRequest
      */
     public function rules(): array
     {
+//        return [
+//            //
+//        ];
         $rules = [];
         $method = $this->route()->getActionMethod();
         switch ($this->method()) {
@@ -30,14 +33,16 @@ class NhanvienRequest extends FormRequest
                         $rules = [
                             'ten' => 'required',
                             'email' => 'required|email|unique:nhanvien',
-                            'tel' => 'regex:/^\d{1,4}-\d{1,4}-\d{1,4}$/', 'max:14'
+                            'tel' => 'regex:/^\d{1,4}-\d{1,4}-\d{1,4}$/',
+                            'max:14'
                         ];
                         break;
                     case 'edit':
                         $rules = [
                             'ten' => 'required',
                             'email' => 'required|email',
-                            'tel' => 'regex:/^\d{1,4}-\d{1,4}-\d{1,4}$/', 'max:14'
+                            'tel' => 'regex:/^\d{1,4}-\d{1,4}-\d{1,4}$/',
+                            'max:14'
                         ];
                         break;
                     default;
@@ -46,9 +51,8 @@ class NhanvienRequest extends FormRequest
                 break;
             default;
                 break;
-
         }
         return $rules;
-
     }
+
 }
