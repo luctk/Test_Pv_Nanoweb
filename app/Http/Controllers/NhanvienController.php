@@ -14,44 +14,69 @@ class NhanvienController extends Controller
     public function index(Request $request)
     {
 
-        $nhanvien = Nhanvien::paginate(3);
-//        $paginator=Paginator::class
-        if ($request->post() && $request->searchNhanvien) {
-            $nhanvien = DB::table('nhanvien')
-                ->where('ten', 'like', '%' . $request->searchNhanvien . '%')
-                ->get();
-            if ($nhanvien) {
-                Session::flash('success', 'nhân viên tìm được');
-            }
+        $perPage = 4;
+        $currentPage = $request->query('page', 1);
+        $nhanvien = NhanVien::query();
+
+        if ($request->isMethod('post') && $request->searchNhanvien) {
+            $nhanvien = NhanVien::where('ten', 'like', '%' . $request->searchNhanvien . '%');
         }
-        return view('nhanvien.list', compact('nhanvien'));
+
+        $nhanvien = $nhanvien->paginate($perPage, ['*'], 'page', $currentPage);
+
+        if ($nhanvien->isEmpty() && $request->searchNhanvien) {
+            Session::flash('error','Không tìm thấy nhân viên');
+        }
+
+        return view('nhanvien.list', compact('nhanvien', 'currentPage'));
+
     }
 
     public function add(NhanvienRequest $request)
     {
-        if ($request->isMethod('post')) {
-            $params = $request->except('_token');
+        if ($request->isMethod('post') && isset($_POST['add'])) {
+            $params = $request->all();
             $params['ten']=e($request->ten);
+            return view('nhanvien.xacnhan', compact('params'));
+        }
+        if ($request->isMethod('post') && isset($_POST['xacnhan'])) {
+            $params = $request->all();
             $nhanvien = Nhanvien::create($params);
             if ($nhanvien) {
-                Session::flash('success', 'thêm thành công');
+                $tb = 'đăng kí thành công';
+                return view('nhanvien.tb', compact('tb'));
             }
         }
         return view('nhanvien.add');
-
     }
 
     public function edit(NhanvienRequest $request, $id)
     {
-        $nhanvien = DB::table('nhanvien')->where('id', $id)->first();
-        if ($request->isMethod('post')) {
-            $params = $request->except('_token');
-            $result = Nhanvien::where('id', $id)->update($params);
-            if ($result) {
-                Session::flash('success', 'sua thành công');
-                return redirect()->route('edit-nhanvien', ['id' => $id]);
+        $nhanvien = Nhanvien::find($id);
+        if ($request->isMethod('post') && isset($_POST['edit'])) {
+            $params = $request->all();
+            return view('nhanvien.xacnhan', compact('params'));
+        }
+        if ($request->isMethod('post') && isset($_POST['xacnhan'])) {
+            $params = $request->all();
+            $nhanvien->update($params);
+            $tb = 'update thành công';
+            return view('nhanvien.tb', compact('tb'));
+        }
+        //delete
+        if ($request->isMethod('post') && isset($_POST['xoa'])) {
+            $params = $request->all();
+            return view('nhanvien.xacnhanxoa', compact('params'));
+        }
+        if ($request->isMethod('post') && isset($_POST['xacnhanxoa'])) {
+            if ($nhanvien) {
+                $nhanvien->delete();
+                $tb = 'delete thành công';
+                return view('nhanvien.tb', compact('tb'));
             }
+
         }
         return view('nhanvien.edit', compact('nhanvien'));
     }
 }
+

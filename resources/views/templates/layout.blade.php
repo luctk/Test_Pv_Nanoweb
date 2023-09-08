@@ -7,9 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('bootstrap/dist/css/bootstrap.min.css')}}">
     <title>Document</title>
+    <style>
+        /*a {*/
+        /*    text-decoration: none; !* Loại bỏ gạch chân *!*/
+        /*    color: inherit; !* Kế thừa màu từ phần tử cha *!*/
+        /*}*/
+    </style>
 </head>
 <body>
-@include('templates.error');
+@include('templates.error')
 @yield('content')
 </body>
 </html>

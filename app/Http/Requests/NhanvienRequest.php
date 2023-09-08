@@ -54,5 +54,15 @@ class NhanvienRequest extends FormRequest
         }
         return $rules;
     }
+//    public function messages()
+//    {
+//        return [
+//            'name.required' => 'Không được bỏ trống tên',
+//            'email.required' => 'Không được bỏ trống email',
+//            'email.unique' => 'Email này đã được dung',
+//            'email.email'=>'mail ko hơợp le',
+//        ];
+//
+//    }
 
 }

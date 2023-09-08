@@ -5,9 +5,9 @@
         @endforeach
     </ul>
 @endif
-@if(\Illuminate\Support\Facades\Session::has('success'))
-    <strong>{{\Illuminate\Support\Facades\Session::get('success')}}</strong>
-@endif
-@if(\Illuminate\Support\Facades\Session::has('error'))
-    <strong>{{\Illuminate\Support\Facades\Session::get('error')}}</strong>
+{{--@if(Session::has('success'))--}}
+{{--    <strong style="color: red">{{Session::get('success')}}</strong>--}}
+{{--@endif--}}
+@if(Session::has('error'))
+    <strong style="color: red">{{Session::get('error')}}</strong>
 @endif
