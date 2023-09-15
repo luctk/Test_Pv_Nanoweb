@@ -15,7 +15,13 @@ class ApiNhanvienController extends Controller
         //trả ve danh sách dưới dạng json
         return NhanvienResoure::collection($nhanvien);
     }
-
+    public function search($ten)
+    {
+        $nhanvien = Nhanvien::whereRaw('lower(ten) like ?', ['%' . strtolower($ten) . '%'])->get();
+    
+        return response()->json($nhanvien);
+    }
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -66,11 +72,17 @@ class ApiNhanvienController extends Controller
         if($nhanvien)
         {
             $nhanvien->delete();
-            return response()->json(['message'=>'xóa thành công'],280);
+            return response()->json(['message'=>'xóa thành công'],200);
         }
         else
         {
             return response()->json(['message'=>'nhân viên ko tồn tại'],404);
         }
+    }
+    public function logout(Request $request) {
+        $request->Nhanvien->token()->revoke();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 }

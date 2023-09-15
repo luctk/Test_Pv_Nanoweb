@@ -1,6 +1,6 @@
 <div><p>Biên soạn thông tin nhân viên</p></div>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="" class="btn btn-outline-dark">Log out</a>
+    <a href="{{route('logout')}}" class="btn btn-outline-dark">Log out</a>
 </div
 @extends('templates.layout')
 @section('content')
@@ -34,6 +34,6 @@
         <button type="submit" class="" name="xoa">
             Delete
         </button>
-        <button type="submit" class="" name="edit"><a href="{{route('list-nhanvien')}}">Back</a></button>
+        <button type="submit" class="" name="edit"><a  href="{{route('list-nhanvien')}} ">Back</a></button>
     </form>
 @endsection
